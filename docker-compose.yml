@@ -1,6 +1,7 @@
 services:
-  app:
-    build: .
+  web:
+    image: ksoochoi/fastapiwithnginx:latest
+    container_name: web
     ports:
       - "8000:8000"
     restart: unless-stopped
@@ -23,7 +24,7 @@ services:
       - ./nginx:/etc/nginx/user_conf.d:ro
       # - letsencrypt:/etc/letsencrypt
     depends_on:
-      - app
+      - web
     logging:
       driver: "json-file"
       options:
