@@ -1,4 +1,4 @@
-name: Build, Push, Deploy.
+name: Build, Push
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ksoochoi/fastapiwithnginx
-          
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
