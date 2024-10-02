@@ -7,3 +7,9 @@ class Museum(Base):
     name = Column(String)
     location = Column(String)
     description = Column(Text)
+
+class Exhibit(Base):
+    __tablename__ = "exhibits"
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String)
+    description = Column(Text)

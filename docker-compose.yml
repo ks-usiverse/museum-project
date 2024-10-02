@@ -1,6 +1,13 @@
 services:
   web:
-    image: ksoochoi/fastapiwithnginx:latest
+    # local test #
+    build: .
+    # local test #
+
+    # deploy #
+    # image: ksoochoi/fastapiwithnginx:latest
+    # deploy #
+
     container_name: web
     ports:
       - "8000:8000"
@@ -10,6 +17,12 @@ services:
       options:
         max-file: "1"
         max-size: "100k"
+    volumes:
+      - ./museum.db:/app/museum.db
+      - ./initial_data.json:/app/initial_data.json
+    environment:
+      - INITIAL_DATA_PATH=/app/initial_data.json
+    command: bash -c "python init_db.py && uvicorn main:app --host 0.0.0.0 --port 8000"
 
   nginx:
     restart: unless-stopped

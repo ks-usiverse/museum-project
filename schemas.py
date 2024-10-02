@@ -8,3 +8,11 @@ class MuseumSchema(BaseModel):
 
     class Config:
         orm_mode = True
+
+class ExhibitSchema(BaseModel):
+    id: int
+    title: str
+    description: str
+
+    class Config:
+        orm_mode = True
