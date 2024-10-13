@@ -1,5 +1,9 @@
 provider "azurerm" {
-  features {}
+  features {
+    resource_group {
+      prevent_deletion_if_contains_resources = false  # 리소스 그룹에 리소스가 남아 있어도 삭제하도록 설정
+    }
+  }
   subscription_id = "9c9e23e3-df71-42db-9f2b-609c0c9efdac"  # Azure 구독 ID
 }
 
@@ -30,7 +34,8 @@ resource "azurerm_public_ip" "example" {
   name                = "example-pip"
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
-  allocation_method   = "Dynamic"
+  allocation_method   = "Static"  # Standard SKU에서는 Static으로 변경해야 함
+  sku                 = "Standard"  # SKU가 Standard일 때는 Static IP만 허용됨
 }
 
 # 네트워크 보안 그룹 생성
@@ -136,7 +141,11 @@ resource "azurerm_virtual_machine" "example" {
       "sudo apt-get install -y docker.io",  # Docker 설치
       "sudo systemctl start docker",        # Docker 시작
       "sudo docker pull ksoochoi/fastapiwithnginx:latest",  # Docker Hub에서 이미지 pull
-      "sudo docker run -d -p 8000:8000 ksoochoi/fastapiwithnginx:latest"  # 이미지 실행
+      "sudo docker run -d -p 80:8000 ksoochoi/fastapiwithnginx:latest"  # 이미지 실행
     ]
   }
+}
+
+output "public_ip_address" {
+  value = azurerm_public_ip.example.ip_address
 }
