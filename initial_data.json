@@ -1,0 +1,66 @@
+{
+  "users": [
+    {
+      "user_id": 1,
+      "username": "test_user1",
+      "password": "password123"
+    },
+    {
+      "user_id": 2,
+      "username": "test_user2",
+      "password": "password456"
+    }
+  ],
+  "quizzes": [
+    {
+      "quiz_id": 1,
+      "question_text": "What is the capital of France?",
+      "image_url": null,
+      "hint": "It's also known as the city of love.",
+      "option_1": "Paris",
+      "option_2": "London",
+      "option_3": "Berlin",
+      "option_4": "Madrid",
+      "correct_answer": "Paris"
+    },
+    {
+      "quiz_id": 2,
+      "question_text": "What is 2 + 2?",
+      "image_url": null,
+      "hint": "It's an even number.",
+      "option_1": "3",
+      "option_2": "4",
+      "option_3": "5",
+      "option_4": "6",
+      "correct_answer": "4"
+    }
+  ],
+  "maps": [
+    {
+      "map_point_id": 1,
+      "location_name": "Louvre Museum",
+      "description": "A famous museum in Paris."
+    },
+    {
+      "map_point_id": 2,
+      "location_name": "Eiffel Tower",
+      "description": "A global cultural icon of France."
+    }
+  ],
+  "user_quiz_progress": [
+    {
+      "progress_id": 1,
+      "user_id": 1,
+      "quiz_id": 1,
+      "map_point_id": 1,
+      "is_correct": true
+    },
+    {
+      "progress_id": 2,
+      "user_id": 2,
+      "quiz_id": 2,
+      "map_point_id": 2,
+      "is_correct": false
+    }
+  ]
+}
