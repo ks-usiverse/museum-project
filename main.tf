@@ -116,8 +116,8 @@ resource "azurerm_virtual_machine" "example" {
   # OS 프로필 설정
   os_profile {
     computer_name  = "example-vm"
-    admin_username = "adminuser"   # 관리자 사용자 이름
-    admin_password = "P@ssw0rd1234!"  # 관리자 비밀번호 (보안에 유의해야 함)
+    admin_username = var.admin_username   # 변수를 사용
+    admin_password = var.admin_password   # 민감한 정보로 변수 처리
   }
 
   # Linux VM에 대한 비밀번호 인증 설정
@@ -129,8 +129,8 @@ resource "azurerm_virtual_machine" "example" {
   provisioner "remote-exec" {
     connection {
       type     = "ssh"
-      user     = "adminuser"  # 위에서 설정한 사용자 이름
-      password = "P@ssw0rd1234!"  # 위에서 설정한 비밀번호
+      user     = var.admin_username  # 위에서 설정한 사용자 이름
+      password = var.admin_password  # 위에서 설정한 비밀번호
       host     = azurerm_public_ip.example.ip_address  # Public IP 주소
       port     = 22
     }

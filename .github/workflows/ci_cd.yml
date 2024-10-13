@@ -32,3 +32,39 @@ jobs:
           push: true
           tags: ksoochoi/fastapiwithnginx:latest
           labels: ${{ steps.meta.outputs.labels }}
+
+  deploy_infrastructure:
+    name: Deploy Azure Infrastructure with Terraform
+    runs-on: ubuntu-latest
+    needs: build_and_push  # Docker 이미지가 푸시된 후 실행
+    steps:
+      # 1. GitHub 저장소 체크아웃
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+      # 2. Terraform 설치
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_wrapper: false
+
+      # 3. Azure 로그인 (GitHub Secrets에 저장된 자격 증명 사용)
+      - name: 'Azure Login'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # 4. Terraform 초기화
+      - name: Terraform Init
+        run: terraform init
+
+      # 5. Terraform 계획 생성 (Plan)
+      - name: Terraform Plan
+        run: terraform plan
+
+      # 6. Terraform 적용 (Apply)
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+        env:
+          TF_VAR_admin_username: ${{ secrets.TF_VAR_ADMIN_USERNAME }}
+          TF_VAR_admin_password: ${{ secrets.TF_VAR_ADMIN_PASSWORD }}
