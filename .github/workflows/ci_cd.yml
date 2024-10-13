@@ -57,15 +57,28 @@ jobs:
       # 4. Terraform 초기화
       - name: Terraform Init
         run: terraform init
+      
+      # 5. 리소스 상태 확인 및 import 자동화
+      - name: Check if Resource Group exists in Terraform state
+        id: check_state
+        run: |
+          terraform state list azurerm_resource_group.example || echo "not found"
 
-      # 5. Terraform 계획 생성 (Plan)
+      # 6. Import Resource Group if it does not exist
+      - name: Import Resource Group if missing
+        if: steps.check_state.outputs.result == 'not found'
+        run: |
+          terraform import azurerm_resource_group.example /subscriptions/9c9e23e3-df71-42db-9f2b-609c0c9efdac/resourceGroups/example-resources
+
+
+      # 7. Terraform 계획 생성 (Plan)
       - name: Terraform Plan
         run: terraform plan
         env:
           TF_VAR_admin_username: ${{ secrets.TF_VAR_ADMIN_USERNAME }}
           TF_VAR_admin_password: ${{ secrets.TF_VAR_ADMIN_PASSWORD }}
 
-      # 6. Terraform 적용 (Apply)
+      # 8. Terraform 적용 (Apply)
       - name: Terraform Apply
         run: terraform apply -auto-approve
         env:
