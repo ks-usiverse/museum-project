@@ -1,11 +1,11 @@
 services:
   web:
-    # local test #
-    build: .
-    # local test #
+    # # local test #
+    # build: .
+    # # local test #
 
     # deploy #
-    # image: ksoochoi/fastapiwithnginx:latest
+    image: ksoochoi/fastapiwithnginx:latest
     # deploy #
 
     container_name: web
