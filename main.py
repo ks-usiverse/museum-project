@@ -21,7 +21,7 @@ logging.basicConfig(filename='app.log', level=logging.ERROR,
 
 @app.get("/")
 def read_root():
-    return {"Hello": "Not World"}
+    return {"Hello": "World"}
 
 @app.get("/users", response_model=List[UserSchema])
 def read_users(db: Session = Depends(get_db)):
