@@ -70,15 +70,7 @@ jobs:
         run: |
           terraform import azurerm_resource_group.example /subscriptions/9c9e23e3-df71-42db-9f2b-609c0c9efdac/resourceGroups/example-resources
 
-
-      # 7. Terraform 계획 생성 (Plan)
-      - name: Terraform Plan
-        run: terraform plan
-        env:
-          TF_VAR_admin_username: ${{ secrets.TF_VAR_ADMIN_USERNAME }}
-          TF_VAR_admin_password: ${{ secrets.TF_VAR_ADMIN_PASSWORD }}
-
-      # 8. Terraform 적용 (Apply)
+      # 7. Terraform 적용 (Apply)
       - name: Terraform Apply
         run: terraform apply -auto-approve
         env:
