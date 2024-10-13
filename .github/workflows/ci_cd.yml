@@ -4,39 +4,39 @@ on:
   push:
     branches: [ main ]
 jobs:
-  build_and_push:
-    name: Push docker image to Docker Hub
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v4
+  # build_and_push:
+  #   name: Push docker image to Docker Hub
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout the repository
+  #       uses: actions/checkout@v4
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          logout: true
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+  #     - name: Login to Docker Hub
+  #       uses: docker/login-action@v3
+  #       with:
+  #         logout: true
+  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Extract metadata (labels, tags, etc.) for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ksoochoi/fastapiwithnginx
+  #     - name: Extract metadata (labels, tags, etc.) for Docker
+  #       id: meta
+  #       uses: docker/metadata-action@v5
+  #       with:
+  #         images: ksoochoi/fastapiwithnginx
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: ksoochoi/fastapiwithnginx:latest
-          labels: ${{ steps.meta.outputs.labels }}
+  #     - name: Build and push Docker image
+  #       uses: docker/build-push-action@v5
+  #       with:
+  #         context: .
+  #         file: ./Dockerfile
+  #         push: true
+  #         tags: ksoochoi/fastapiwithnginx:latest
+  #         labels: ${{ steps.meta.outputs.labels }}
 
   deploy_infrastructure:
     name: Deploy Azure Infrastructure with Terraform
     runs-on: ubuntu-latest
-    needs: build_and_push  # Docker 이미지가 푸시된 후 실행
+    # needs: build_and_push  # Docker 이미지가 푸시된 후 실행
     steps:
       # 1. GitHub 저장소 체크아웃
       - name: Checkout the repository
@@ -62,13 +62,13 @@ jobs:
       - name: Check if Resource Group exists in Terraform state
         id: check_state
         run: |
-          terraform state list azurerm_resource_group.example || echo "not found"
+          terraform state list azurerm_resource_group.example-resources || echo "not found"
 
       # 6. Import Resource Group if it does not exist
       - name: Import Resource Group if missing
         if: steps.check_state.outputs.result == 'not found'
         run: |
-          terraform import azurerm_resource_group.example /subscriptions/9c9e23e3-df71-42db-9f2b-609c0c9efdac/resourceGroups/example-resources
+          terraform import azurerm_resource_group.example-resources /subscriptions/9c9e23e3-df71-42db-9f2b-609c0c9efdac/resourceGroups/example-resources
 
       # 7. Terraform 적용 (Apply)
       - name: Terraform Apply
