@@ -65,9 +65,3 @@ jobs:
           TF_VAR_admin_username: ${{ secrets.TF_VAR_ADMIN_USERNAME }}
           TF_VAR_admin_password: ${{ secrets.TF_VAR_ADMIN_PASSWORD }}
       
-      # 5. Terraform 적용 (Destroy)
-      - name: Terraform Destroy
-        run: terraform destroy -auto-approve
-        env:
-          TF_VAR_admin_username: ${{ secrets.TF_VAR_ADMIN_USERNAME }}
-          TF_VAR_admin_password: ${{ secrets.TF_VAR_ADMIN_PASSWORD }}
