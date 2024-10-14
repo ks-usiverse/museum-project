@@ -58,6 +58,9 @@ jobs:
       - name: Terraform Init
         run: terraform init
       
+      - name: Remove resource from Terraform state if already managed
+        run: |
+          terraform state list | grep azurerm_resource_group.example && terraform state rm azurerm_resource_group.example || echo "Resource not in state."
 
       - name: Import resources if they exist
         run: |
