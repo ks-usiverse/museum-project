@@ -22,7 +22,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ksoochoi/fastapiwithnginx
+          images: ksoochoi/fastapi
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
@@ -30,7 +30,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ksoochoi/fastapiwithnginx:latest
+          tags: ksoochoi/fastapi:latest
           labels: ${{ steps.meta.outputs.labels }}
 
   deploy_infrastructure:

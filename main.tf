@@ -140,8 +140,8 @@ resource "azurerm_virtual_machine" "example" {
       "sudo apt-get update",
       "sudo apt-get install -y docker.io",  # Docker 설치
       "sudo systemctl start docker",        # Docker 시작
-      "sudo docker pull ksoochoi/fastapiwithnginx:latest",  # Docker Hub에서 이미지 pull
-      "sudo docker run -d -p 80:8000 ksoochoi/fastapiwithnginx:latest"  # 이미지 실행
+      "sudo docker pull ksoochoi/fastapi:latest",  # Docker Hub에서 이미지 pull
+      "sudo docker run -d -p 80:8000 ksoochoi/fastapi:latest"  # 이미지 실행
     ]
   }
 }
