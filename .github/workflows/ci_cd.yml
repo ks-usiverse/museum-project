@@ -59,7 +59,7 @@ jobs:
         run: terraform init
       
 
-      - name: Import resource group if it exists
+      - name: Import resources if they exist
         run: |
           RESOURCE_GROUP_EXISTS=$(az group exists --name example-resources)
           if [ "$RESOURCE_GROUP_EXISTS" = "true" ]; then
@@ -68,6 +68,34 @@ jobs:
               -var "admin_password=${{ secrets.TF_VAR_ADMIN_PASSWORD }}" \
               azurerm_resource_group.example /subscriptions/9c9e23e3-df71-42db-9f2b-609c0c9efdac/resourceGroups/example-resources
           fi
+      
+          # Virtual Network import
+          VNET_ID="/subscriptions/9c9e23e3-df71-42db-9f2b-609c0c9efdac/resourceGroups/example-resources/providers/Microsoft.Network/virtualNetworks/example-vnet"
+          if az network vnet show --ids $VNET_ID > /dev/null 2>&1; then
+            terraform import \
+              -var "admin_username=${{ secrets.TF_VAR_ADMIN_USERNAME }}" \
+              -var "admin_password=${{ secrets.TF_VAR_ADMIN_PASSWORD }}" \
+              azurerm_virtual_network.example $VNET_ID
+          fi
+      
+          # Public IP import
+          PIP_ID="/subscriptions/9c9e23e3-df71-42db-9f2b-609c0c9efdac/resourceGroups/example-resources/providers/Microsoft.Network/publicIPAddresses/example-pip"
+          if az network public-ip show --ids $PIP_ID > /dev/null 2>&1; then
+            terraform import \
+              -var "admin_username=${{ secrets.TF_VAR_ADMIN_USERNAME }}" \
+              -var "admin_password=${{ secrets.TF_VAR_ADMIN_PASSWORD }}" \
+              azurerm_public_ip.example $PIP_ID
+          fi
+      
+          # Network Security Group import
+          NSG_ID="/subscriptions/9c9e23e3-df71-42db-9f2b-609c0c9efdac/resourceGroups/example-resources/providers/Microsoft.Network/networkSecurityGroups/example-nsg"
+          if az network nsg show --ids $NSG_ID > /dev/null 2>&1; then
+            terraform import \
+              -var "admin_username=${{ secrets.TF_VAR_ADMIN_USERNAME }}" \
+              -var "admin_password=${{ secrets.TF_VAR_ADMIN_PASSWORD }}" \
+              azurerm_network_security_group.example $NSG_ID
+          fi
+      
 
       # 5. Terraform 적용 (Apply)
       - name: Terraform Apply
