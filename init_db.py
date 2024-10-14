@@ -8,7 +8,7 @@ def init_db():
     Base.metadata.create_all(bind=engine)
     session = Session(bind=engine)
     if not session.query(Quiz).first():
-        initial_data_path = os.environ.get('INITIAL_DATA_PATH', '/app/initial_data.json')
+        initial_data_path = os.environ.get('INITIAL_DATA_PATH', 'initial_data.json')
         try:
             with open(initial_data_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
