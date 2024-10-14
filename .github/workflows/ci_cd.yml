@@ -58,6 +58,14 @@ jobs:
       - name: Terraform Init
         run: terraform init
       
+
+      - name: Import resource group if it exists
+        run: |
+          RESOURCE_GROUP_EXISTS=$(az group exists --name example-resources)
+          if [ "$RESOURCE_GROUP_EXISTS" = "true" ]; then
+            terraform import azurerm_resource_group.example /subscriptions/9c9e23e3-df71-42db-9f2b-609c0c9efdac/resourceGroups/example-resources
+          fi  
+          
       # 5. Terraform 적용 (Apply)
       - name: Terraform Apply
         run: terraform apply -auto-approve
