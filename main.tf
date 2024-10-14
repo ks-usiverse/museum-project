@@ -1,19 +1,19 @@
 provider "azurerm" {
   features {
     resource_group {
-      prevent_deletion_if_contains_resources = false  # 리소스 그룹에 리소스가 남아 있어도 삭제하도록 설정
+      prevent_deletion_if_contains_resources = false  # Set to delete even if resources remain in the resource group
     }
   }
-  subscription_id = "9c9e23e3-df71-42db-9f2b-609c0c9efdac"  # Azure 구독 ID
+  subscription_id = "9c9e23e3-df71-42db-9f2b-609c0c9efdac"  # Azure subscription ID
 }
 
-# 리소스 그룹 생성
+# Create a resource group
 resource "azurerm_resource_group" "example" {
   name     = "example-resources"
-  location = "Germany West Central"  # 원하는 리전으로 변경 가능
+  location = "Germany West Central"  # Can be changed to any region
 }
 
-# 가상 네트워크 생성
+# Create a virtual network
 resource "azurerm_virtual_network" "example" {
   name                = "example-vnet"
   address_space       = ["10.0.0.0/16"]
@@ -21,7 +21,7 @@ resource "azurerm_virtual_network" "example" {
   resource_group_name = azurerm_resource_group.example.name
 }
 
-# 서브넷 생성
+# Create a subnet
 resource "azurerm_subnet" "example" {
   name                 = "example-subnet"
   resource_group_name  = azurerm_resource_group.example.name
@@ -29,16 +29,16 @@ resource "azurerm_subnet" "example" {
   address_prefixes     = ["10.0.1.0/24"]
 }
 
-# Public IP 생성
+# Create a Public IP
 resource "azurerm_public_ip" "example" {
   name                = "example-pip"
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
-  allocation_method   = "Static"  # Standard SKU에서는 Static으로 변경해야 함
-  sku                 = "Standard"  # SKU가 Standard일 때는 Static IP만 허용됨
+  allocation_method   = "Static"  # Standard SKUs require a change to Static
+  sku                 = "Standard"  # Only Static IPs are allowed when the SKU is Standard
 }
 
-# 네트워크 보안 그룹 생성
+# Create a network security group
 resource "azurerm_network_security_group" "example" {
   name                = "example-nsg"
   location            = azurerm_resource_group.example.location
@@ -51,7 +51,7 @@ resource "azurerm_network_security_group" "example" {
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    destination_port_range     = "22"  # SSH 포트
+    destination_port_range     = "22"  # SSH Port
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
@@ -63,13 +63,13 @@ resource "azurerm_network_security_group" "example" {
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    destination_port_range     = "80"  # HTTP 포트
+    destination_port_range     = "80"  # HTTP Port
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
 }
 
-# 네트워크 인터페이스 생성
+# Create a network interface
 resource "azurerm_network_interface" "example" {
   name                = "example-nic"
   location            = azurerm_resource_group.example.location
@@ -79,25 +79,25 @@ resource "azurerm_network_interface" "example" {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.example.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.example.id  # Public IP 연결
+    public_ip_address_id          = azurerm_public_ip.example.id  # Public IP Connections
   }
 }
 
-# 네트워크 인터페이스에 NSG 연결
+# Connect NSG to a network interface
 resource "azurerm_network_interface_security_group_association" "example" {
   network_interface_id      = azurerm_network_interface.example.id
   network_security_group_id = azurerm_network_security_group.example.id
 }
 
-# 가상 머신 생성
+# Create a virtual machine
 resource "azurerm_virtual_machine" "example" {
   name                  = "example-vm"
   location              = azurerm_resource_group.example.location
   resource_group_name   = azurerm_resource_group.example.name
   network_interface_ids = [azurerm_network_interface.example.id]
-  vm_size               = "Standard_DS1_v2"  # VM 크기
+  vm_size               = "Standard_DS1_v2"  # VM size
 
-  # OS 디스크 설정
+  # OS Disk Settings
   storage_os_disk {
     name              = "example-osdisk"
     caching           = "ReadWrite"
@@ -105,7 +105,7 @@ resource "azurerm_virtual_machine" "example" {
     managed_disk_type = "Standard_LRS"
   }
 
-  # OS 이미지 설정 (Ubuntu 사용)
+  # Set up an OS image (using Ubuntu)
   storage_image_reference {
     publisher = "Canonical"
     offer     = "UbuntuServer"
@@ -113,35 +113,35 @@ resource "azurerm_virtual_machine" "example" {
     version   = "latest"
   }
 
-  # OS 프로필 설정
+  # Set up an OS profile
   os_profile {
     computer_name  = "example-vm"
-    admin_username = var.admin_username   # 변수를 사용
-    admin_password = var.admin_password   # 민감한 정보로 변수 처리
+    admin_username = var.admin_username   # Using variables
+    admin_password = var.admin_password   # Handling variables with sensitive information
   }
 
-  # Linux VM에 대한 비밀번호 인증 설정
+  # Set up password authentication for Linux VMs
   os_profile_linux_config {
-    disable_password_authentication = false  # 비밀번호 인증 활성화
+    disable_password_authentication = false  # Enable password authentication
   }
 
-  # 가상 머신 생성 후 Docker 설치 및 Docker Hub 이미지 실행
+  # Install Docker and run a Docker Hub image after creating a virtual machine
   provisioner "remote-exec" {
     connection {
       type     = "ssh"
-      user     = var.admin_username  # 위에서 설정한 사용자 이름
-      password = var.admin_password  # 위에서 설정한 비밀번호
-      host     = azurerm_public_ip.example.ip_address  # Public IP 주소
+      user     = var.admin_username  # The username set up above
+      password = var.admin_password  # The password set above
+      host     = azurerm_public_ip.example.ip_address  # Public IP address
       port     = 22
     }
 
     inline = [
-      "sleep 30",  # VM이 완전히 시작되기를 기다림
+      "sleep 30",  # Wait for the VM to fully start
       "sudo apt-get update",
-      "sudo apt-get install -y docker.io",  # Docker 설치
-      "sudo systemctl start docker",        # Docker 시작
-      "sudo docker pull ksoochoi/fastapi:latest",  # Docker Hub에서 이미지 pull
-      "sudo docker run -d -p 80:8000 ksoochoi/fastapi:latest"  # 이미지 실행
+      "sudo apt-get install -y docker.io",  # Installing Docker
+      "sudo systemctl start docker",        # Start Docker
+      "sudo docker pull ksoochoi/fastapi:latest",  # Pull images from Docker Hub
+      "sudo docker run -d -p 80:8000 ksoochoi/fastapi:latest"  # Run the image
     ]
   }
 }

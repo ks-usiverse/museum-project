@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>보물찾기 맵</title>
+    <title>Treasure Hunt Map</title>
     <style>
-        /* 맵 스타일 */
+        /* Map styles */
         #map {
             position: relative;
             width: 100%;
             max-width: 800px;
-            padding-bottom: 75%; /* 맵의 가로세로 비율 유지 (600/800 * 100%) */
+            padding-bottom: 75%; /* Maintain the aspect ratio of the map (600/800 * 100%) */
             background-image: url("/static/map-img.png");
             background-size: cover;
             background-position: center;
@@ -22,7 +22,7 @@
             line-height: 20px;
             font-weight: bold;
             color: #000;
-            transform: translate(-50%, -50%); /* 포인트를 중심에 맞춤 */
+            transform: translate(-50%, -50%); /* Align points to center */
         }
         .completed {
             background-color: green;
@@ -39,7 +39,7 @@
     </style>
 </head>
 <body>
-    <h1>보물찾기 맵</h1>
+    <h1>Treasure Hunt Map</h1>
     <div id="map">
         {% for i in range(1, total_quizzes+1) %}
             {% if i == 1 %}
@@ -81,15 +81,15 @@
             {% endif %}
     
             {% if i in completed_quizzes %}
-                <div class="point completed" style="top: {{ top_percent }}%; left: {{ left_percent }}%;" title="퀴즈 {{ i }}">
+                <div class="point completed" style="top: {{ top_percent }}%; left: {{ left_percent }}%;" title="Quiz {{ i }}">
                     ✓
                 </div>
             {% elif i == next_quiz_id %}
-                <div class="point current" style="top: {{ top_percent }}%; left: {{ left_percent }}%;" title="퀴즈 {{ i }}" onclick="openQuiz({{ i }})">
+                <div class="point current" style="top: {{ top_percent }}%; left: {{ left_percent }}%;" title="Quiz {{ i }}" onclick="openQuiz({{ i }})">
                     ?
                 </div>
             {% else %}
-                <div class="point locked" style="top: {{ top_percent }}%; left: {{ left_percent }}%;" title="잠금">
+                <div class="point locked" style="top: {{ top_percent }}%; left: {{ left_percent }}%;" title="Lock">
                 </div>
             {% endif %}
         {% endfor %}

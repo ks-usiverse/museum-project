@@ -36,29 +36,29 @@ jobs:
   deploy_infrastructure:
     name: Deploy Azure Infrastructure with Terraform
     runs-on: ubuntu-latest
-    needs: build_and_push  # Docker 이미지가 푸시된 후 실행
+    needs: build_and_push  # Run after the Docker image is pushed
     steps:
-      # 1. GitHub 저장소 체크아웃
+      # 1. check out GitHub repository
       - name: Checkout the repository
         uses: actions/checkout@v2
 
-      # 2. Terraform 설치
+      # 2. install terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_wrapper: false
 
-      # 3. Azure 로그인 (GitHub Secrets에 저장된 자격 증명 사용)
+      # 3. sign in to Azure (using credentials stored in GitHub Secrets)
       - name: 'Azure Login'
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      # 4. Terraform 초기화
+      # 4. Initialize Terraform
       - name: Terraform Init
         run: terraform init
 
-      # 5. Terraform 적용 (Apply)
+      # 5. Apply Terraform (Apply)
       - name: Terraform Apply
         run: terraform apply -auto-approve
         env:
