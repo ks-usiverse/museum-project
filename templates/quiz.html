@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>퀴즈 {{ quiz.quiz_id }}</title>
+</head>
+<body>
+    <h1>퀴즈 {{ quiz.quiz_id }}</h1>
+    <p>{{ quiz.question_text }}</p>
+    {% if error %}
+    <p style="color:red;">{{ error }}</p>
+    {% endif %}
+    <form action="/quiz/{{ quiz.quiz_id }}/submit?user_id={{ user_id }}" method="post">
+        <input type="radio" name="selected_option" value="{{ quiz.option_1 }}" required> {{ quiz.option_1 }}<br>
+        <input type="radio" name="selected_option" value="{{ quiz.option_2 }}"> {{ quiz.option_2 }}<br>
+        <input type="radio" name="selected_option" value="{{ quiz.option_3 }}"> {{ quiz.option_3 }}<br>
+        <input type="radio" name="selected_option" value="{{ quiz.option_4 }}"> {{ quiz.option_4 }}<br>
+        <button type="submit">제출</button>
+    </form>
+</body>
+</html>

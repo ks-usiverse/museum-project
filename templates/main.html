@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>보물찾기 맵</title>
+    <style>
+        /* 맵 스타일 */
+        #map {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            padding-bottom: 75%; /* 맵의 가로세로 비율 유지 (600/800 * 100%) */
+            background-image: url("/static/map-img.png");
+            background-size: cover;
+            background-position: center;
+        }
+        .point {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            cursor: pointer;
+            text-align: center;
+            line-height: 20px;
+            font-weight: bold;
+            color: #000;
+            transform: translate(-50%, -50%); /* 포인트를 중심에 맞춤 */
+        }
+        .completed {
+            background-color: green;
+            border-radius: 50%;
+        }
+        .current {
+            background-color: yellow;
+            border-radius: 50%;
+        }
+        .locked {
+            background-color: gray;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <h1>보물찾기 맵</h1>
+    <div id="map">
+        {% for i in range(1, total_quizzes+1) %}
+            {% if i == 1 %}
+                {% set top_percent = 90 %}
+                {% set left_percent = 70 %}
+            {% elif i == 2 %}
+                {% set top_percent = 80 %}
+                {% set left_percent = 65 %}
+            {% elif i == 3 %}
+                {% set top_percent = 80 %}
+                {% set left_percent = 35 %}
+            {% elif i == 4 %}
+                {% set top_percent = 90 %}
+                {% set left_percent = 30 %}
+            {% elif i == 5 %}
+                {% set top_percent = 95 %}
+                {% set left_percent = 5 %}
+            {% elif i == 6 %}
+                {% set top_percent = 70 %}
+                {% set left_percent = 5 %}
+            {% elif i == 7 %}
+                {% set top_percent = 50 %}
+                {% set left_percent = 20 %}
+            {% elif i == 8 %}
+                {% set top_percent = 40 %}
+                {% set left_percent = 5 %}
+            {% elif i == 9 %}
+                {% set top_percent = 15 %}
+                {% set left_percent = 15 %}
+            {% elif i == 10 %}
+                {% set top_percent = 0 %}
+                {% set left_percent = 20 %}
+            {% elif i == 11 %}
+                {% set top_percent = 15 %}
+                {% set left_percent = 75 %}
+            {% else %}
+                {% set top_percent = 0 %}
+                {% set left_percent = 0 %}
+            {% endif %}
+    
+            {% if i in completed_quizzes %}
+                <div class="point completed" style="top: {{ top_percent }}%; left: {{ left_percent }}%;" title="퀴즈 {{ i }}">
+                    ✓
+                </div>
+            {% elif i == next_quiz_id %}
+                <div class="point current" style="top: {{ top_percent }}%; left: {{ left_percent }}%;" title="퀴즈 {{ i }}" onclick="openQuiz({{ i }})">
+                    ?
+                </div>
+            {% else %}
+                <div class="point locked" style="top: {{ top_percent }}%; left: {{ left_percent }}%;" title="잠금">
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    
+
+    <script>
+        function openQuiz(quizId) {
+            var userId = '{{ user_id }}';
+            window.location.href = '/quiz/' + quizId + '?user_id=' + userId;
+        }
+    </script>
+</body>

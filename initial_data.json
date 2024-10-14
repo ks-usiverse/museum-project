@@ -1,66 +1,125 @@
 {
-  "users": [
-    {
-      "user_id": 1,
-      "username": "test_user1",
-      "password": "password123"
-    },
-    {
-      "user_id": 2,
-      "username": "test_user2",
-      "password": "password456"
-    }
-  ],
   "quizzes": [
     {
       "quiz_id": 1,
-      "question_text": "What is the capital of France?",
+      "question_text": "WIe viele Container passen auf die TS Düsseldorf?",
       "image_url": null,
       "hint": "It's also known as the city of love.",
-      "option_1": "Paris",
-      "option_2": "London",
-      "option_3": "Berlin",
-      "option_4": "Madrid",
-      "correct_answer": "Paris"
+      "option_1": "19",
+      "option_2": "17",
+      "option_3": "23",
+      "option_4": "15",
+      "correct_answer": "19"
     },
     {
       "quiz_id": 2,
-      "question_text": "What is 2 + 2?",
+      "question_text": "Welches Länderkürzel hat Dänemark?",
       "image_url": null,
-      "hint": "It's an even number.",
-      "option_1": "3",
-      "option_2": "4",
-      "option_3": "5",
-      "option_4": "6",
-      "correct_answer": "4"
-    }
-  ],
-  "maps": [
-    {
-      "map_point_id": 1,
-      "location_name": "Louvre Museum",
-      "description": "A famous museum in Paris."
+      "hint": "?",
+      "option_1": "DAN",
+      "option_2": "DEN",
+      "option_3": "DMK",
+      "option_4": "DAE",
+      "correct_answer": "DEN"
     },
     {
-      "map_point_id": 2,
-      "location_name": "Eiffel Tower",
-      "description": "A global cultural icon of France."
-    }
-  ],
-  "user_quiz_progress": [
-    {
-      "progress_id": 1,
-      "user_id": 1,
-      "quiz_id": 1,
-      "map_point_id": 1,
-      "is_correct": true
+      "quiz_id": 3,
+      "question_text": "Wie lang ist die SANTA LAETITIA?",
+      "image_url": null,
+      "hint": "?",
+      "option_1": "180m",
+      "option_2": "270m",
+      "option_3": "460m",
+      "option_4": "350m",
+      "correct_answer": "350m"
     },
     {
-      "progress_id": 2,
-      "user_id": 2,
-      "quiz_id": 2,
-      "map_point_id": 2,
-      "is_correct": false
+      "quiz_id": 4,
+      "question_text": "Wie viele Schmiedezangen liegen auf dem Tisch?",
+      "image_url": null,
+      "hint": "?",
+      "option_1": "4",
+      "option_2": "6",
+      "option_3": "8",
+      "option_4": "10",
+      "correct_answer": "8"
+    },
+    {
+      "quiz_id": 5,
+      "question_text": "Wann war die erste Fahrt des Stückgutfrachters Cap San Diego?",
+      "image_url": null,
+      "hint": "?",
+      "option_1": "1958",
+      "option_2": "1969",
+      "option_3": "1974",
+      "option_4": "1962",
+      "correct_answer": "1962"
+    },
+    {
+      "quiz_id": 6,
+      "question_text": "Wie groß war die Besetzung des Turbinentanker ESSO HAMBURG?",
+      "image_url": null,
+      "hint": "?",
+      "option_1": "35",
+      "option_2": "42",
+      "option_3": "52",
+      "option_4": "38",
+      "correct_answer": "52"
+    },
+    {
+      "quiz_id": 7,
+      "question_text": "Welches Rumpfmodell hatte eine hölzerne Bark?",
+      "image_url": null,
+      "hint": "?",
+      "option_1": "Doppelrumpf mit Seitenschwertern",
+      "option_2": "Achterschiff mit Schiffsmitte und Vorschiff",
+      "option_3": "Katamaran mit Trapezkiel",
+      "option_4": "Einrumpf mit Schwenkkiel",
+      "correct_answer": "Achterschiff mit Schiffsmitte und Vorschiff"
+    },
+    {
+      "quiz_id": 8,
+      "question_text": "In welcher Farbe trugen Angehörige der Feuerwehr Ihren Schutzhelm",
+      "image_url": null,
+      "hint": "?",
+      "option_1": "Weiß",
+      "option_2": "Rot",
+      "option_3": "Grün",
+      "option_4": "Gelb",
+      "correct_answer": "Rot"
+    },
+    {
+      "quiz_id": 9,
+      "question_text": "Welchen Namen trägt das riesige Schiff in der Ausstellung?",
+      "image_url": null,
+      "hint": "?",
+      "option_1": "07 Wewelfried",
+      "option_2": "03 Wewersfeld",
+      "option_3": "06 Wevelstein",
+      "option_4": "05 Wewelsfleth",
+      "correct_answer": "05 Wewelsfleth"
+    },
+    {
+      "quiz_id": 10,
+      "question_text": "Wie viele rote Lampen leuchten bei einem manövrierunfähigem Fahrzeug?",
+      "image_url": null,
+      "hint": "?",
+      "option_1": "2",
+      "option_2": "Keine",
+      "option_3": "1",
+      "option_4": "4",
+      "correct_answer": "2"
+    },
+    {
+      "quiz_id": 11,
+      "question_text": "Wie lautet der Spitzname des VW Käfer 1100?",
+      "image_url": null,
+      "hint": "?",
+      "option_1": "Wusel-Käfer",
+      "option_2": "Keks Käfer",
+      "option_3": "Brezel Käfer",
+      "option_4": "Knopf-Käfer",
+      "correct_answer": "Brezel Käfer"
     }
   ]
 }
