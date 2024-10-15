@@ -7,7 +7,10 @@
     <h1>Quiz {{ quiz.quiz_id }}</h1>
     <p>{{ quiz.question_text }}</p>
     {% if quiz.image_url %}
-        <img src="/static/{{ quiz.image_url }}" alt="quiz img" style="max-width:100%; height:auto;">
+        <button type="button" onclick="toggleHint()">Hint</button>
+        <div id="hint-image" style="display: none;">
+            <img src="/static/{{ quiz.image_url }}" alt="quiz img" style="max-width:100%; height:auto;">
+        </div>
     {% endif %}
     {% if error %}
     <p style="color:red;">{{ error }}</p>
@@ -19,5 +22,15 @@
         <input type="radio" name="selected_option" value="{{ quiz.option_4 }}"> {{ quiz.option_4 }}<br>
         <button type="submit">Submit</button>
     </form>
+    <script>
+        function toggleHint() {
+            var hintImage = document.getElementById('hint-image');
+            if (hintImage.style.display === 'none') {
+                hintImage.style.display = 'block';
+            } else {
+                hintImage.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>
